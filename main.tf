@@ -15,7 +15,7 @@ module "cloudflare_dns" {
   providers = {
     cloudflare = cloudflare
   }
-  zone_id     = "940de265c8868a66a6a4f38dae66b2ed"
+  zone_id     = var.zone_id
   record_type = "A"
   record_name = "azure"
   proxied     = false
