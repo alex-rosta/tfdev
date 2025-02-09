@@ -9,4 +9,5 @@ variable "ttl" {
 }
 variable "proxied" {
     type = bool
+    default = true
 }
