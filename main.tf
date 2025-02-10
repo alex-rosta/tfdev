@@ -1,30 +1,22 @@
-module "azure_resources" {
-  source              = "./modules/azure"
-  location            = "West Europe"
-  resource_group_name = "tf-rg"
-  acr_login_server    = "eurostacr.azurecr.io"
-  acr_username        = var.acr_username
-  acr_password        = var.acr_password
-  containers = [
-    {
-      name            = "rostadevcontainer"
-      image           = "${var.acr_login_server}/nextjsapp:1.1.2"
-      port            = 3000
-      cpu             = 1
-      memory          = 1
-      protocol        = "TCP"
-      ip_address_type = "Public"
-    }
-  ]
+module "azure_container_apps" {
+  source = "./modules/aca"
+  location = "West Europe"
+  app_name = "aca"
+  image = "nginx"
+  cpu = "0.5"
+  memory = "1.5"
+  external_enabled = true
+  target_port = 80
+  resource_group_name = "aca-rg"
 }
 
-module "cloudflare" {
+module "cloudflare_dns" {
   source = "./modules/cloudf"
-  zone_id = var.zone_id
-  record_type = "A"
-  record_name = "azure"
-  content = module.azure_resources.container_ip_address
-  comment = module.azure_resources.container_name
+  zone_id = "zone_id"
+  record_type = "TXT"
+  record_name = "aca"
+  content = module.azure_container_apps.custom_domain_verification_id
+  comment = "Azure Container Apps"
   proxied = true
 }
 
