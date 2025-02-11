@@ -43,3 +43,8 @@ variable "ip_address_type" {
   type        = string
   default     = "Public"
 }
+
+variable "certificate_password" {
+  description = "Certificate password"
+  type        = string
+}

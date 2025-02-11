@@ -1,13 +1,12 @@
 variable "zone_id" {}
-variable "record_type" {}
-variable "record_name" {}
-variable "content" {}
-variable "comment" {}
-variable "ttl" {
-    type = number
-    default = 1
-}
-variable "proxied" {
-    type = bool
-    default = true
+
+variable "dns_records" {
+  type = list(object({
+    record_type = string
+    record_name = string
+    content     = string
+    comment     = optional(string)
+    proxied     = bool
+    ttl         = optional(number)
+  }))
 }

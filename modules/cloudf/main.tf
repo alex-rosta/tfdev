@@ -7,11 +7,13 @@ terraform {
 }
 
 resource "cloudflare_dns_record" "azure" {
+  for_each = { for record in var.dns_records : record.record_name => record }
+
   zone_id = var.zone_id
-  type    = var.record_type
-  name    = var.record_name
-  content = var.content
-  comment = var.comment
-  proxied = var.proxied
-  ttl = var.ttl
+  type    = each.value.record_type
+  name    = each.value.record_name
+  content = each.value.content
+  comment = each.value.comment
+  proxied = each.value.proxied
+  ttl     = each.value.ttl
 }

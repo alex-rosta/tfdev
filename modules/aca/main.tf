@@ -16,6 +16,7 @@ resource "azurerm_container_app" "aca" {
   revision_mode                = "Single"
 
   template {
+    max_replicas = 1
     container {
       name   = var.app_name
       image  = var.image
@@ -25,11 +26,26 @@ resource "azurerm_container_app" "aca" {
   }
 
   ingress {
-    external_enabled = var.external_enabled
-    target_port      = var.target_port
+    external_enabled           = var.external_enabled
+    target_port                = var.target_port
+    allow_insecure_connections = true
     traffic_weight {
       latest_revision = true
       percentage      = 100
     }
   }
+}
+
+resource "azurerm_container_app_environment_certificate" "ac-cert" {
+  name                         = var.certificate_friendly_name
+  container_app_environment_id = azurerm_container_app_environment.aca-env.id
+  certificate_blob_base64      = filebase64(var.certificate_path)
+  certificate_password         = var.certificate_password
+}
+
+resource "azurerm_container_app_custom_domain" "ac-cd" {
+  name = var.custom_domain_name
+  container_app_environment_certificate_id = azurerm_container_app_environment_certificate.ac-cert.id
+  container_app_id = azurerm_container_app.aca.id
+  certificate_binding_type = "SniEnabled"
 }
