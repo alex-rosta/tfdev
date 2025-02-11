@@ -48,4 +48,7 @@ resource "azurerm_container_app_custom_domain" "ac-cd" {
   container_app_environment_certificate_id = azurerm_container_app_environment_certificate.ac-cert.id
   container_app_id = azurerm_container_app.aca.id
   certificate_binding_type = "SniEnabled"
+  depends_on = [
+    module.cloudflare_dns_record
+  ]
 }
