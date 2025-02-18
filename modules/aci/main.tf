@@ -30,7 +30,7 @@ resource "azurerm_container_group" "container_group" {
       }
 
       environment_variables = container.value.environment_variables
-      commands = container.value.command != null ? container.value.command : []
+      commands              = container.value.command != null ? container.value.command : []
     }
   }
 }

@@ -24,7 +24,7 @@ resource "cloudflare_dns_record" "a-record" {
 resource "cloudflare_dns_record" "txt_record" {
   zone_id = var.zone_id
   type    = "TXT"
-  name = "asuid.${var.app_name}.${var.root_domain}"
+  name    = "asuid.${var.app_name}.${var.root_domain}"
   content = azurerm_container_app.aca.custom_domain_verification_id
   comment = var.app_name
   proxied = false
@@ -72,17 +72,17 @@ resource "azurerm_container_app_environment_certificate" "ac-cert" {
 }
 
 resource "null_resource" "wait_for_dns" {
-  depends_on = [ cloudflare_dns_record.txt_record ]
+  depends_on = [cloudflare_dns_record.txt_record]
   provisioner "local-exec" {
     command = "powershell -Command Start-Sleep -Seconds 60"
   }
 }
 
 resource "azurerm_container_app_custom_domain" "ac-cd" {
-  name = "${var.app_name}.${var.root_domain}"
+  name                                     = "${var.app_name}.${var.root_domain}"
   container_app_environment_certificate_id = azurerm_container_app_environment_certificate.ac-cert.id
-  container_app_id = azurerm_container_app.aca.id
-  certificate_binding_type = "SniEnabled"
+  container_app_id                         = azurerm_container_app.aca.id
+  certificate_binding_type                 = "SniEnabled"
   depends_on = [
     cloudflare_dns_record.txt_record,
     null_resource.wait_for_dns
