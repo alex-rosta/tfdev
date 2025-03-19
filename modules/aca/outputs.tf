@@ -24,10 +24,6 @@ output "container_app_custom_domain_name" {
 
 }
 
-output "redis_hostname" {
-  value = azurerm_redis_cache.redis.hostname
-}
-
-output "redis_primary_access_key" {
-  value = azurerm_redis_cache.redis.primary_access_key
+output "resource_group_name" {
+  value = azurerm_resource_group.aca-rg.name
 }

@@ -1,6 +1,5 @@
 module "azure_container_apps" {
   source                    = "./modules/aca"
-  location                  = "West Europe"
   app_name                  = "azure"
   image                     = "alexrsit/nextjsapp:1.1.2"
   cpu                       = "0.5"
@@ -12,10 +11,14 @@ module "azure_container_apps" {
   certificate_password      = var.certificate_password
   zone_id                   = var.zone_id
   root_domain               = "rosta.dev"
-  redis_name                = "azure-redis"
-  sku_name                  = "Basic"
-  capacity                  = 2
+}
 
+module "azure_redis" {
+  source              = "./modules/redis"
+  resource_group_name = module.azure_container_apps.resource_group_name
+  redis_name          = "azure"
+  start_ip_allow      = module.azure_container_apps.static_ip_address
+  end_ip_allow        = module.azure_container_apps.static_ip_address
 }
 
 

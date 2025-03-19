@@ -8,7 +8,7 @@ terraform {
 
 resource "azurerm_resource_group" "aca-rg" {
   name     = "${var.app_name}-rg"
-  location = var.location
+  location = "West Europe"
 }
 
 resource "cloudflare_dns_record" "a-record" {
@@ -33,7 +33,7 @@ resource "cloudflare_dns_record" "txt_record" {
 
 resource "azurerm_container_app_environment" "aca-env" {
   name                = var.app_name
-  location            = var.location
+  location            = azurerm_resource_group.aca-rg.location
   resource_group_name = azurerm_resource_group.aca-rg.name
 }
 
@@ -87,23 +87,4 @@ resource "azurerm_container_app_custom_domain" "ac-cd" {
     cloudflare_dns_record.txt_record,
     null_resource.wait_for_dns
   ]
-}
-
-resource "azurerm_redis_cache" "redis" {
-  name                 = var.redis_name
-  resource_group_name  = azurerm_resource_group.aca-rg.name
-  location             = var.location
-  sku_name             = var.sku_name
-  capacity             = 2
-  family               = "C"
-  non_ssl_port_enabled = false
-  minimum_tls_version  = "1.2"
-}
-
-resource "azurerm_redis_firewall_rule" "redis-fw" {
-  name                = "AllowACA"
-  redis_cache_name    = var.redis_name
-  resource_group_name = azurerm_resource_group.aca-rg.name
-  start_ip            = azurerm_container_app_environment.aca-env.static_ip_address
-  end_ip              = azurerm_container_app_environment.aca-env.static_ip_address
 }
