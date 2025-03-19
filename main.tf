@@ -16,7 +16,7 @@ module "azure_container_apps" {
 module "azure_redis" {
   source              = "./modules/redis"
   resource_group_name = module.azure_container_apps.resource_group_name
-  redis_name          = "azure"
+  redis_name          = "${module.azure_container_apps.app_name}-redis"
   start_ip_allow      = module.azure_container_apps.static_ip_address
   end_ip_allow        = module.azure_container_apps.static_ip_address
 }
