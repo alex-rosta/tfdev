@@ -23,3 +23,11 @@ output "container_app_custom_domain_name" {
   value = azurerm_container_app_custom_domain.ac-cd.name
 
 }
+
+output "redis_hostname" {
+  value = azurerm_redis_cache.redis.hostname
+}
+
+output "redis_primary_access_key" {
+  value = azurerm_redis_cache.redis.primary_access_key
+}

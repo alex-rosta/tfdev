@@ -13,3 +13,6 @@ variable "certificate_path" {}
 variable "certificate_password" {}
 variable "root_domain" {}
 variable "zone_id" {}
+variable "redis_name" {}
+variable "sku_name" {}
+variable "capacity" {}

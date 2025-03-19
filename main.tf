@@ -12,5 +12,10 @@ module "azure_container_apps" {
   certificate_password      = var.certificate_password
   zone_id                   = var.zone_id
   root_domain               = "rosta.dev"
+  redis_name                = "azure-redis"
+  sku_name                  = "Basic"
+  capacity                  = 2
+
 }
+
 
