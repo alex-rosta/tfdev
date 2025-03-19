@@ -90,20 +90,20 @@ resource "azurerm_container_app_custom_domain" "ac-cd" {
 }
 
 resource "azurerm_redis_cache" "redis" {
-  name = var.redis_name
-  resource_group_name = azurerm_resource_group.aca-rg.name
-  location = var.location
-    sku_name = var.sku_name
-    capacity = 2
-    family = "C"
-    non_ssl_port_enabled = false
-    minimum_tls_version = "1.2"
+  name                 = var.redis_name
+  resource_group_name  = azurerm_resource_group.aca-rg.name
+  location             = var.location
+  sku_name             = var.sku_name
+  capacity             = 2
+  family               = "C"
+  non_ssl_port_enabled = false
+  minimum_tls_version  = "1.2"
 }
 
 resource "azurerm_redis_firewall_rule" "redis-fw" {
-    name = "AllowACA"
-    redis_cache_name = var.redis_name
-    resource_group_name = azurerm_resource_group.aca-rg.name
-    start_ip = azurerm_container_app_environment.aca-env.static_ip_address
-    end_ip = azurerm_container_app_environment.aca-env.static_ip_address
+  name                = "AllowACA"
+  redis_cache_name    = var.redis_name
+  resource_group_name = azurerm_resource_group.aca-rg.name
+  start_ip            = azurerm_container_app_environment.aca-env.static_ip_address
+  end_ip              = azurerm_container_app_environment.aca-env.static_ip_address
 }
