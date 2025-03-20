@@ -50,6 +50,13 @@ resource "azurerm_container_app" "aca" {
       image  = var.image
       cpu    = var.cpu
       memory = var.memory
+      dynamic "env" {
+        for_each = var.env
+        content {
+          name  = env.key
+          value = env.value
+        }
+      }
     }
   }
 

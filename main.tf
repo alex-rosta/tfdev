@@ -1,7 +1,7 @@
 module "azure_container_apps" {
   source                    = "./modules/aca"
-  app_name                  = "azure"
-  image                     = "alexrsit/nextjsapp:1.1.2"
+  app_name                  = "armory"
+  image                     = "alexrsit/armory:latest"
   cpu                       = "0.5"
   memory                    = "1Gi"
   external_enabled          = true
@@ -11,14 +11,18 @@ module "azure_container_apps" {
   certificate_password      = var.certificate_password
   zone_id                   = var.zone_id
   root_domain               = "rosta.dev"
+  env = {
+    "REDIS_CLOUD"   = true
+    "CLIENT_ID"     = var.CLIENT_ID
+    "CLIENT_SECRET" = var.CLIENT_SECRET
+    "REDIS_ADDR"    = module.azure_redis.hostname
+  }
 }
 
 module "azure_redis" {
   source              = "./modules/redis"
   resource_group_name = module.azure_container_apps.resource_group_name
-  redis_name          = "${module.azure_container_apps.app_name}-redis"
-  start_ip_allow      = module.azure_container_apps.static_ip_address
-  end_ip_allow        = module.azure_container_apps.static_ip_address
+  redis_name = "armory-redis"
 }
 
 

@@ -48,3 +48,13 @@ variable "certificate_password" {
   description = "Certificate password"
   type        = string
 }
+
+variable "CLIENT_ID" {
+  description = "Azure AD application client ID"
+  type        = string
+}
+
+variable "CLIENT_SECRET" {
+  description = "Azure AD application client secret"
+  type        = string
+}

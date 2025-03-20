@@ -12,3 +12,6 @@ variable "certificate_path" {}
 variable "certificate_password" {}
 variable "root_domain" {}
 variable "zone_id" {}
+variable "env" {
+  type = map(string)
+}
