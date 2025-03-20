@@ -22,7 +22,7 @@ module "azure_container_apps" {
 module "azure_redis" {
   source              = "./modules/redis"
   resource_group_name = module.azure_container_apps.resource_group_name
-  redis_name = "armory-redis"
+  redis_name          = "armory-redis"
 }
 
 
