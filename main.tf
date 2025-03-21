@@ -25,4 +25,12 @@ module "azure_redis" {
   redis_name          = "armory-redis"
 }
 
+resource "azurerm_redis_firewall_rule" "redis-fw" {
+  name                = "allowaca"
+  redis_cache_name    = module.azure_redis.redis_cache_name
+  resource_group_name = module.azure_container_apps.resource_group_name
+  start_ip            = module.azure_container_apps.static_ip_address
+  end_ip              = module.azure_container_apps.static_ip_address
+}
+
 
