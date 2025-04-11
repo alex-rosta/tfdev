@@ -16,6 +16,7 @@ module "azure_container_apps" {
     "CLIENT_ID"     = var.CLIENT_ID
     "CLIENT_SECRET" = var.CLIENT_SECRET
     "REDIS_ADDR"    = module.azure_redis.hostname
+    "REDIS_PASSWORD" = "${module.azurerm_redis_cache.primary_access_key}"
   }
 }
 
