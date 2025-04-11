@@ -12,10 +12,10 @@ module "azure_container_apps" {
   zone_id                   = var.zone_id
   root_domain               = "rosta.dev"
   env = {
-    "REDIS_CLOUD"   = true
-    "CLIENT_ID"     = var.CLIENT_ID
-    "CLIENT_SECRET" = var.CLIENT_SECRET
-    "REDIS_ADDR"    = module.azure_redis.hostname
+    "REDIS_CLOUD"    = true
+    "CLIENT_ID"      = var.CLIENT_ID
+    "CLIENT_SECRET"  = var.CLIENT_SECRET
+    "REDIS_ADDR"     = module.azure_redis.hostname
     "REDIS_PASSWORD" = "${module.azurerm_redis_cache.primary_access_key}"
   }
 }
